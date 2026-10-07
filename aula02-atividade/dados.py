@@ -2,6 +2,7 @@
 
 import csv
 from pathlib import Path
+import app
 
 # Pasta onde este arquivo .py está. Assim o programa encontra o CSV
 # mesmo quando é executado a partir de outra pasta (como no Streamlit Cloud).
@@ -73,6 +74,7 @@ def converter_nota(nota):
         return 2
     else:
         return 1
+        
 
 def preparar_livros(linhas):
     """Recebe as linhas lidas do CSV e devolve os livros com preço e nota em número."""
@@ -92,6 +94,9 @@ def preparar_livros(linhas):
 def carregar_livros():
     """Lê o CSV e já devolve os livros prontos para usar."""
     return preparar_livros(ler_livros())
+
+
+
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ import streamlit as st
 
 import dados
 
+
 def montar_tabela(livros):
     """Prepara as linhas que aparecem na tabela, com nomes de coluna amigáveis."""
     tabela = []
@@ -40,13 +41,24 @@ def contar_por_faixa(livros):
 
     return contagem
 
+def buscar_livros(livros, busca):
+    livros_buscados = []
+    for livro in livros:
+        if busca.lower() in livro['titulo'].lower():
+            livros_buscados.append(livro)
+    if len(livros_buscados) == 0:
+        st.title("nenhum livro encontrado")
+    return livros_buscados
+    
 
 def main():
     st.set_page_config(page_title="Dashboard de Livros", page_icon="📚", layout="wide")
     st.title("📚 Dashboard de Livros")
 
     livros = dados.carregar_livros()
-    tabela = montar_tabela(livros)
+    busca = st.text_input("busca", max_chars=20, key="busca")
+    livros_e = buscar_livros(livros, busca)
+    tabela = montar_tabela(livros_e)
 
     col1, col2, col3, col4 = st.columns(4)
     qtd_livros = len(livros)
@@ -62,7 +74,11 @@ def main():
     col4.metric("Livro mais caro", f"£{mais_caro["preco"]}")
     col4.caption(mais_caro["titulo"])
 
+
     st.dataframe(tabela)
+
+
+
 
 
 if __name__ == "__main__":
